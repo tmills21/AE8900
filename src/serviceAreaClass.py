@@ -39,7 +39,7 @@ class serviceArea:
     def computeResponseTime(self):
         
         # W in minutes
-        factor = self.arrivalRate**2 / ( 2 * self.arrivalRate * ( 1 - self.arrivalRate * self.mean ) )
+        factor = self.arrivalRate / ( 2 * ( 1 - self.arrivalRate * self.mean ) )
         return self.mean + factor * self.variance
 
 if __name__ == "__main__":
