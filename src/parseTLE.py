@@ -15,22 +15,22 @@ class TLEdata:
         counter = 1
         for i in range(len(tle_lines)):
             if i%3 == 0:
-                all_satellites[counter] = {"name" : tle_lines[i].strip()}
+                all_satellites[counter] = {'name' : tle_lines[i].strip()}
             
             if i%3 == 1:
                 year = int(tle_lines[i][18:20]) + 1900
                 if year < 1957:
                     year += 100
-                all_satellites[counter]["epochYear"] = year # year
-                all_satellites[counter]["epochDay"] = float(tle_lines[i][20:32]) # day of the year and fractional portion of the day
+                all_satellites[counter]['epochYear'] = year # year
+                all_satellites[counter]['epochDay'] = float(tle_lines[i][20:32]) # day of the year and fractional portion of the day
 
             if i%3 == 2:
-                all_satellites[counter]["inclination"] = math.radians(float(tle_lines[i][8:16])) # radians
-                all_satellites[counter]["Omega"] = math.radians(float(tle_lines[i][17:25])) # Right Ascension of Ascending Node (RAAN), radians
-                all_satellites[counter]["eccentricity"] = float(tle_lines[i][26:33]) * 1e-7 
-                all_satellites[counter]["omega"] = math.radians(float(tle_lines[i][34:42])) # Argument of Perigee, radians
-                all_satellites[counter]["M"] = math.radians(float(tle_lines[i][43:51])) # Mean Anomaly, radians
-                all_satellites[counter]["n"] = float(tle_lines[i][52:63]) # Mean Motion, revs/day
+                all_satellites[counter]['inclination'] = math.radians(float(tle_lines[i][8:16])) # radians
+                all_satellites[counter]['Omega'] = math.radians(float(tle_lines[i][17:25])) # Right Ascension of Ascending Node (RAAN), radians
+                all_satellites[counter]['eccentricity'] = float(tle_lines[i][26:33]) * 1e-7 
+                all_satellites[counter]['omega'] = math.radians(float(tle_lines[i][34:42])) # Argument of Perigee, radians
+                all_satellites[counter]['M'] = math.radians(float(tle_lines[i][43:51])) # Mean Anomaly, radians
+                all_satellites[counter]['n'] = float(tle_lines[i][52:63]) # Mean Motion, revs/day
                 counter += 1
 
         return all_satellites
