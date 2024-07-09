@@ -1,4 +1,4 @@
-class ServiceSatellite:
+class serviceSatellite:
     def __init__(self, year, day):
 
         # defines a circular geostationary orbit
