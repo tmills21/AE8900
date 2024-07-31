@@ -1,4 +1,7 @@
-class serviceArea:
+import numpy as np
+import matplotlib.pyplot as plt
+
+class serviceAreaSquare:
     def __init__(self, width, inner):
 
         # calls/hour/km^2
@@ -47,7 +50,7 @@ class serviceArea:
         return distSq * 3600 / self.serviceTimeSpeed**2 # min^2
     
 
-class StandardResponseArea(serviceArea):
+class StandardResponseArea(serviceAreaSquare):
     def __init__(self, width, inner):
         super().__init__(width, inner)
 
@@ -57,12 +60,12 @@ class StandardResponseArea(serviceArea):
         factor = self.arrivalRate / ( 2 * ( 1 - self.arrivalRate * self.expectation ) )
         return self.expectation + factor * self.expectationVarSq
     
-class PriorityResponseArea(serviceArea):
+class PriorityResponseArea(serviceAreaSquare):
 
     # assumes only two regions
     def __init__(self, width, inner):
         super().__init__(width, inner)
-        self.containedArea = serviceArea(inner, 0)
+        self.containedArea = serviceAreaSquare(inner, 0)
 
     def computeResponseTime(self):
         
@@ -97,5 +100,29 @@ class PriorityResponseArea(serviceArea):
     
 
 if __name__ == "__main__":
-    largeRegion = PriorityResponseArea(3, 2)
-    print(largeRegion.computeResponseTime())
+    outer = 3
+
+    region = StandardResponseArea(3, 0)
+    standardResponse = region.computeResponseTime()
+
+    # get priority queue times 
+    buffer = 0.001
+    xs = np.linspace(buffer, outer - buffer, 50)
+    priTimes = []
+    for i in range(len(xs)):
+        region = PriorityResponseArea(outer, xs[i])
+        priTimes.append(region.computeResponseTime())
+
+    min_index = priTimes.index(min(priTimes))
+    print('min time = ' + str(min(priTimes)) + " at side length = " + str(xs[min_index]))
+    print(str(xs[min_index]/outer) + ' of the way')
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(xs, priTimes, label='Priority Queue')
+    plt.plot([0, 3], [standardResponse] * 2, label='Standard Queue')
+    plt.title('Average Response Times for Queueing Types')
+    plt.xlabel('Priority Area Side Length')
+    plt.ylabel('Average Response Time (minutes)')
+    plt.legend()
+    plt.grid(True)
+    plt.show()

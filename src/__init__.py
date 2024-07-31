@@ -1,5 +1,5 @@
 # my_module/__init__.py
 
-from .serviceAreaClass import serviceArea, StandardResponseArea, PriorityResponseArea
+from .serviceAreaSquareClass import serviceAreaSquare, StandardResponseArea, PriorityResponseArea
 
-__all__ = ["serviceArea", "StandardResponseArea", "PriorityResponseArea"]
+__all__ = ["serviceAreaSquare", "StandardResponseArea", "PriorityResponseArea"]

@@ -3,6 +3,8 @@ import math
 class TLEdata:
     def __init__(self, filename):
         self.filename = filename
+        self.mu = 3.986004418 * 10**14 # m^3/s^2
+
         self.satellites = self.parse()
         
     def parse(self):
@@ -12,7 +14,7 @@ class TLEdata:
             tle_lines = f.readlines()
 
         all_satellites = dict()
-        counter = 1
+        counter = 0
         for i in range(len(tle_lines)):
             if i%3 == 0:
                 all_satellites[counter] = {'name' : tle_lines[i].strip()}
@@ -27,13 +29,28 @@ class TLEdata:
             if i%3 == 2:
                 all_satellites[counter]['inclination'] = math.radians(float(tle_lines[i][8:16])) # radians
                 all_satellites[counter]['Omega'] = math.radians(float(tle_lines[i][17:25])) # Right Ascension of Ascending Node (RAAN), radians
-                all_satellites[counter]['eccentricity'] = float(tle_lines[i][26:33]) * 1e-7 
+                e = float(tle_lines[i][26:33]) * 1e-7 
+                all_satellites[counter]['eccentricity'] = e
                 all_satellites[counter]['omega'] = math.radians(float(tle_lines[i][34:42])) # Argument of Perigee, radians
                 all_satellites[counter]['M'] = math.radians(float(tle_lines[i][43:51])) # Mean Anomaly, radians
-                all_satellites[counter]['n'] = float(tle_lines[i][52:63]) # Mean Motion, revs/day
+                n = float(tle_lines[i][52:63])
+                all_satellites[counter]['n'] = n # Mean Motion, revs/day
+                a = self.getafromn(n)
+                all_satellites[counter]['a'] = a # Semi-major axis, meters
+                all_satellites[counter]['ra'] = a * ( 1 + e )
+                all_satellites[counter]['rp'] = a * ( 1 - e )
+
                 counter += 1
 
         return all_satellites
+    
+    def getafromn(self, n):
+
+        # https://space.stackexchange.com/questions/18289/how-to-get-semi-major-axis-from-tle
+        num = self.mu**(1/3)
+        denom = ( 2 * n * math.pi ) / 86400
+        val = num / ( denom**(2/3) )
+        return val # meters
 
     def getOldestAndNewest(self):
         oldestYear = None
@@ -79,7 +96,8 @@ class TLEdata:
             # update the epoch and mean anomaly
             sat['epochYear'] = goalYear
             sat['epochDay'] = goalDay
-            sat['M'] += sat['n'] * 2 * math.pi * daysToProp
+            sat['M'] += (sat['n'] * 2 * math.pi * daysToProp)
+            sat['M'] = sat['M'] % ( 2 * math.pi )
 
 if __name__ == "__main__":
     filename = "./data/geoSmall.txt"
