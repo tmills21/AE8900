@@ -36,10 +36,18 @@ def plotVaryingPriorityOrbital(xs, priTimes, standardTime):
 def plotVaryingPriorityandAnomalyOrbital(xs, priTimes):
     plt.figure(figsize=(10, 6))
     plt.plot(xs, priTimes, label='Priority Queue')
-    plt.title('Average Response Times for Queueing Types')
-    plt.xlabel('Mean Anomaly (degrees)')
-    plt.ylabel('Average Response Time (days)')
-    plt.legend()
+    plt.title('Change in Minimum Average Response Rate by Servicer Satellite Starting Location')
+    plt.xlabel('Initial Mean Anomaly of Servicer Satellite (degrees)')
+    plt.ylabel('Minimum Average Response Time (days)')
+    plt.grid(True)
+    return plt
+
+def plotVaryingPriorityandBestPriAngleOrbital(xs, priTimes):
+    plt.figure(figsize=(10, 6))
+    plt.plot(xs, priTimes, label='Priority Queue')
+    plt.title('Change in Optimal Priority Area Half Angle by Servicer Satellite Starting Location')
+    plt.xlabel('Initial Mean Anomaly of Servicer Satellite (degrees)')
+    plt.ylabel('Half Angle of Minimum Response Time (degrees)')
     plt.grid(True)
     return plt
 

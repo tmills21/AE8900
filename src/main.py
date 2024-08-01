@@ -34,11 +34,11 @@ def generateOnce(sats, M):
 
     # get response time with and without priority queue 
     [xsOrbital, priTimesOrbital, standardTimeOrbital] = computeVaryingPriorityOrbital(response, 0.1)
-    # [xsSquare, priTimesSquare, standardTimeSquare] = computeVaryingPrioritySquare(sideLength, 0.001)
+    [xsSquare, priTimesSquare, standardTimeSquare] = computeVaryingPrioritySquare(sideLength, 0.001)
 
     # plot the data
     plotVaryingPriorityOrbital(xsOrbital, priTimesOrbital, standardTimeOrbital)
-    # plotVaryingPrioritySquare(xsSquare, priTimesSquare, standardTimeSquare, sideLength)
+    plotVaryingPrioritySquare(xsSquare, priTimesSquare, standardTimeSquare, sideLength)
     plt.show()
 
 def generateMany(sats):
@@ -80,7 +80,7 @@ def generateMany(sats):
         minPriorityAngle.append(xsOrbital[min_index])
 
     plotVaryingPriorityandAnomalyOrbital(servicerMeanAnomalies, minResponseTimes)
-    plotVaryingPriorityandAnomalyOrbital(servicerMeanAnomalies, minPriorityAngle)
+    plotVaryingPriorityandBestPriAngleOrbital(servicerMeanAnomalies, minPriorityAngle)
 
 if __name__ == "__main__":
 
@@ -90,7 +90,7 @@ if __name__ == "__main__":
     [(newestYear, newestDay), (oldestYear, oldestYear)] = sats.getOldestAndNewest()
     sats.propogateToSameTime(newestYear, newestDay)
 
-    # generateOnce(sats, 350)
+    # generateOnce(sats, 0)
     generateMany(sats)
 
     plt.show()
