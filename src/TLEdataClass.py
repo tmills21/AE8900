@@ -1,8 +1,9 @@
+from utilityClass import *
+
 import math
 
 class TLEdata:
     def __init__(self, filename):
-        self.mu = 3.986004418 * 10**14 # m^3/s^2
         self.filename = filename
         self.satellites = self.parse()
         
@@ -34,7 +35,7 @@ class TLEdata:
                 all_satellites[counter]['M'] = math.radians(float(tle_lines[i][43:51])) # Mean Anomaly, radians
                 n = float(tle_lines[i][52:63])
                 all_satellites[counter]['n'] = n # Mean Motion, revs/day
-                a = self.getafromn(n)
+                a = utility().getafromn(n)
                 all_satellites[counter]['a'] = a # Semi-major axis, meters
                 all_satellites[counter]['ra'] = a * ( 1 + e )
                 all_satellites[counter]['rp'] = a * ( 1 - e )
@@ -42,14 +43,6 @@ class TLEdata:
                 counter += 1
 
         return all_satellites
-    
-    def getafromn(self, n):
-
-        # https://space.stackexchange.com/questions/18289/how-to-get-semi-major-axis-from-tle
-        num = self.mu**(1/3)
-        denom = ( 2 * n * math.pi ) / 86400
-        val = num / ( denom**(2/3) )
-        return val # meters
 
     def getOldestAndNewest(self):
         oldestYear = None

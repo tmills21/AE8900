@@ -13,7 +13,7 @@ def generateOnce(sats, M):
     # initialize variables for service
     numSats = len(sats.satellites)
     serviceTimes = []
-    service = performService(True, True, True)
+    service = performService(servicer.serviceSat, True, True, True)
 
     # iterate over all satellites
     for i in range(numSats):
@@ -45,7 +45,6 @@ def generateMany(sats):
 
     # initialize variables for service
     numSats = len(sats.satellites)
-    service = performService(True, True, True)
 
     servicerMeanAnomalies = np.linspace(0, 359, 360)
 
@@ -55,6 +54,7 @@ def generateMany(sats):
     for i in range(len(servicerMeanAnomalies)):
         serviceTimes = []
         servicer = serviceSatellite(newestYear, newestDay, servicerMeanAnomalies[i])
+        service = performService(servicer.serviceSat, True, True, True)
 
         # iterate over all satellites
         for j in range(numSats):
