@@ -7,7 +7,7 @@ class responseTime:
         # satellite data
         self.data = data
         self.numSats = len(self.data)
-        self.freqLambdaScale = self.numSats / ( 20 * 365.25 ) # calls/day
+        self.freqLambdaScale = self.numSats / ( 40 * 365.25 ) # calls/day
 
     def standardResponseTime(self):
 
@@ -28,8 +28,8 @@ class responseTime:
 
         # angle provided defines priority angle in both positive and negative directions
         for i in range(self.numSats):
-            angle = self.data[i][0]
-            if abs(angle) < abs(priAngle):
+            phaseAngle = self.data[i][0]
+            if (- priAngle <= phaseAngle <= priAngle ):
                 priSats.append(self.data[i])
             else:
                 nonPriSats.append(self.data[i])
@@ -48,6 +48,11 @@ class responseTime:
 
         priTimes = [priSats[i][1]/86400 for i in range(len(priSats))]
         nonPriTimes = [nonPriSats[i][1]/86400 for i in range(len(nonPriSats))]
+
+        if priTimes == []:
+            priTimes = [0]
+        if nonPriTimes == []:
+            nonPriTimes = [0]
 
         ES1 = np.mean(priTimes)
         ES2 = np.mean(nonPriTimes)

@@ -94,7 +94,7 @@ class TLEdata:
             # update the epoch and mean anomaly
             sat['epochYear'] = goalYear
             sat['epochDay'] = goalDay
-            sat['M'] += (sat['n'] * 2 * math.pi * daysToProp)
+            sat['M'] += (sat['n'] * ( 2 * math.pi ) * daysToProp)
             sat['M'] = sat['M'] % ( 2 * math.pi )
 
 if __name__ == "__main__":

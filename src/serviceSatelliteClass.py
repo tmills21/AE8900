@@ -14,5 +14,5 @@ class serviceSatellite:
         self.serviceSat['Omega'] = 0 # should not matter for circular geostationary
         self.serviceSat['eccentricity'] = 0 # circle
         self.serviceSat['omega'] = 0 # technically not defined, defaulted to 0
-        self.serviceSat['M'] = math.radians(M) # Mean Anomaly, radians
+        self.serviceSat['M'] = math.radians(M) % (2 * math.pi) # Mean Anomaly, radians
         self.serviceSat['n'] = 1 # Mean Motion, revs/day

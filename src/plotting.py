@@ -16,7 +16,7 @@ def computeVaryingPriorityOrbital(response, buffer):
 
     # get smallest wait time from priority queue
     min_index = priTimes.index(min(priTimes))
-    print('min time = ' + str(min(priTimes)) + " at side length = " + str(xs[min_index]))
+    print('min time = ' + str(min(priTimes)) + " at angle = " + str(xs[min_index]))
     print(str(xs[min_index]/180) + ' of the way')
 
     return [xs, priTimes, standardTime]
@@ -28,6 +28,16 @@ def plotVaryingPriorityOrbital(xs, priTimes, standardTime):
     plt.plot([0, 180], [standardTime] * 2, label='Standard Queue')
     plt.title('Average Response Times for Queueing Types')
     plt.xlabel('Half Angle of Priority (degrees)')
+    plt.ylabel('Average Response Time (days)')
+    plt.legend()
+    plt.grid(True)
+    return plt
+
+def plotVaryingPriorityandAnomalyOrbital(xs, priTimes):
+    plt.figure(figsize=(10, 6))
+    plt.plot(xs, priTimes, label='Priority Queue')
+    plt.title('Average Response Times for Queueing Types')
+    plt.xlabel('Mean Anomaly (degrees)')
     plt.ylabel('Average Response Time (days)')
     plt.legend()
     plt.grid(True)

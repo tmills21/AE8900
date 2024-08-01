@@ -50,16 +50,20 @@ class performService:
 
     def getPhaseAngle(self, servicer, target):
         diff = servicer['M'] - target['M']
-        if diff < - math.pi:
-            diff = 2 * math.pi + diff # radians
+
+        if diff > math.pi:
+            diff = ( 2 * math.pi ) - diff
+        elif diff < - math.pi:
+            diff = ( 2 * math.pi ) + diff
 
         # negative means chase, positive means slow down
+        # print(math.degrees(diff))
         return diff
 
     def computeRevs(self, theta, n):
 
         # phasing orbit period
-        T2 = ( 1 / n ) * ( theta + n * 2 * math.pi ) / self.omegaE # s
+        T2 = ( 1 / n ) * ( theta + n * ( 2 * math.pi ) ) / self.omegaE # s
 
         if T2 < 0:
             # if phasing orbit is not achievable, return very large/nonsense values
