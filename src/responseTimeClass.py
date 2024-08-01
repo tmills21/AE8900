@@ -3,32 +3,30 @@ import numpy as np
 
 class responseTime:
     def __init__(self, data):
+        
+        # satellite data
         self.data = data
         self.numSats = len(self.data)
         self.freqLambdaScale = self.numSats / ( 20 * 365.25 ) # calls/day
 
     def standardResponseTime(self):
+
+        # list all response times in days
         times = [self.data[i][1]/86400 for i in range(self.numSats)]
         timesAvg = np.mean(times)
         timesVar = np.var(times)
-        timesExpectationVarSq = timesVar + timesAvg**2
 
-        # W in days
-        # factor = self.freqLambdaScale / ( 2 * ( 1 - self.freqLambdaScale * timesAvg ) )
-        # return timesAvg + factor * timesExpectationVarSq
-
+        # average response time W in days
         rho = self.freqLambdaScale * timesAvg
         W = timesAvg + ( rho**2 + self.freqLambdaScale**2 * timesVar ) / ( 2 * self.freqLambdaScale * ( 1 - rho ) )
         return W
     
-    def getFraction(self, priAngle):
+    def getPrioritySplit(self, priAngle):
         priAngle = math.radians(priAngle)
-        # allAngles = [self.data[i][0] for i in range(self.numSats)]
-        # priSats = [allAngles[i] for i in range(self.numSats) if abs(allAngles[i]) < abs(priAngle)]
-
         priSats = []
         nonPriSats = []
 
+        # angle provided defines priority angle in both positive and negative directions
         for i in range(self.numSats):
             angle = self.data[i][0]
             if abs(angle) < abs(priAngle):
@@ -40,11 +38,11 @@ class responseTime:
     
     def priorityResponseTime(self, priAngle):
 
-        # get fraction of sats in priority area
-        priSats, nonPriSats = self.getFraction(priAngle)
+        # get fraction of sats in priority and nonpriority area
+        priSats, nonPriSats = self.getPrioritySplit(priAngle)
         scale = len(priSats) / self.numSats
 
-        # W in days
+        # average response time W in days
         lambda1 = self.freqLambdaScale * scale
         lambda2 = self.freqLambdaScale * ( 1 - scale )
 
@@ -75,6 +73,6 @@ class responseTime:
         W1 = Wq1 + ES1
         W2 = Wq2 + ES2
 
-        W = P1 * W1 + P2 * W2 # min
+        W = P1 * W1 + P2 * W2
 
         return W

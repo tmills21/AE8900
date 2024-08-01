@@ -48,7 +48,6 @@ class serviceAreaSquare:
         innerExpVarSq = ( 7 / 6.0 ) * self.inner**2
         distSq = ( expVarSq  - (1 - self.P ) * innerExpVarSq ) / self.P # km^2
         return distSq * 3600 / self.serviceTimeSpeed**2 # min^2
-    
 
 class StandardResponseArea(serviceAreaSquare):
     def __init__(self, width, inner):

@@ -2,9 +2,8 @@ import math
 
 class TLEdata:
     def __init__(self, filename):
-        self.filename = filename
         self.mu = 3.986004418 * 10**14 # m^3/s^2
-
+        self.filename = filename
         self.satellites = self.parse()
         
     def parse(self):
@@ -84,14 +83,13 @@ class TLEdata:
 
     def propogateToSameTime(self, goalYear, goalDay):
 
-        # TODO this assumes all the same year, which is true for geo.txt
+        # TODO this assumes all times are in the same year, which is true for geo.txt
         for sat in self.satellites.values():
             curYear = sat['epochYear']
             curDay = sat['epochDay']
 
             # get time needed to propogate
             daysToProp = goalDay - curDay
-            secsToProp = daysToProp * 24 * 60 * 60
 
             # update the epoch and mean anomaly
             sat['epochYear'] = goalYear
