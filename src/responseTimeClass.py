@@ -7,7 +7,7 @@ class responseTime:
         # satellite data
         self.data = data
         self.numSats = len(self.data)
-        self.freqLambdaScale = self.numSats / ( 40 * 365.25 ) # calls/day
+        self.freqLambdaScale = self.numSats / ( 30 * 365.25 ) # calls/day
 
     def standardResponseTime(self):
 

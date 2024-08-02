@@ -33,8 +33,8 @@ def generateOnce(sats, M):
     sideLength = 3
 
     # get response time with and without priority queue 
-    [xsOrbital, priTimesOrbital, standardTimeOrbital] = computeVaryingPriorityOrbital(response, 0.1)
-    [xsSquare, priTimesSquare, standardTimeSquare] = computeVaryingPrioritySquare(sideLength, 0.001)
+    [xsOrbital, priTimesOrbital, standardTimeOrbital] = computeVaryingPriorityOrbital(response, 0)
+    [xsSquare, priTimesSquare, standardTimeSquare] = computeVaryingPrioritySquare(sideLength, 0.00001)
 
     # plot the data
     plotVaryingPriorityOrbital(xsOrbital, priTimesOrbital, standardTimeOrbital)
@@ -50,6 +50,7 @@ def generateMany(sats):
 
     minResponseTimes = []
     minPriorityAngle = []
+    standardTimes = []
 
     for i in range(len(servicerMeanAnomalies)):
         serviceTimes = []
@@ -78,8 +79,9 @@ def generateMany(sats):
         min_index = priTimesOrbital.index(min(priTimesOrbital))
         minResponseTimes.append(min(priTimesOrbital))
         minPriorityAngle.append(xsOrbital[min_index])
+        standardTimes.append(standardTimeOrbital)
 
-    plotVaryingPriorityandAnomalyOrbital(servicerMeanAnomalies, minResponseTimes)
+    plotVaryingPriorityandAnomalyOrbital(servicerMeanAnomalies, minResponseTimes, standardTimes)
     plotVaryingPriorityandBestPriAngleOrbital(servicerMeanAnomalies, minPriorityAngle)
 
 if __name__ == "__main__":
@@ -90,7 +92,9 @@ if __name__ == "__main__":
     [(newestYear, newestDay), (oldestYear, oldestYear)] = sats.getOldestAndNewest()
     sats.propogateToSameTime(newestYear, newestDay)
 
-    # generateOnce(sats, 0)
-    generateMany(sats)
+    generateOnce(sats, 290)
+    # generateMany(sats)
+    # plotSatelliteDistribution(sats.satellites)
+    # writeNewTLE(filename, sats.satellites, newestYear, newestDay, True)
 
     plt.show()
