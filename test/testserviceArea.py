@@ -1,5 +1,5 @@
 import unittest
-from src import serviceArea, StandardResponseArea, PriorityResponseArea
+from src import serviceAreaSquare, StandardResponseArea, PriorityResponseArea
 
 class TestServiceArea(unittest.TestCase):
 
@@ -26,7 +26,7 @@ class TestServiceAreaSmall(unittest.TestCase):
 
     # D1 only
     def setUp(self):
-        self.smallSquare = serviceArea(2, 0)
+        self.smallSquare = serviceAreaSquare(2, 0)
     
     def tearDown(self):
         del self.smallSquare
@@ -44,7 +44,7 @@ class TestServiceAreaWithHole(unittest.TestCase):
 
     # D2 only
     def setUp(self):
-        self.squareWithHole = serviceArea(3, 2)
+        self.squareWithHole = serviceAreaSquare(3, 2)
     
     def tearDown(self):
         del self.squareWithHole
